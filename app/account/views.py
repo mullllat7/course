@@ -7,12 +7,14 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import get_object_or_404
+
 
 from .models import InfoUser
 from .permission import PermissionMixin
 from .serializers import *
 
-
+User = get_user_model()
 
 class RegisterView(APIView):
     def post(self, request):
@@ -24,16 +26,14 @@ class RegisterView(APIView):
                       f'Вам отправлено письмо с активацией'
             return Response(message, status=201)
 #
-# class ActivationView(APIView):
-#     def post(self, request):
-#         data = request.data
-#         serializer = ActivationSerializer(data=data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.activate()
-#             return Response('Ваш аккаунт успешно активирован')
-#
-#
-#
+class ActivationView(APIView):
+    def get(self, request, activation_code):
+        user = get_object_or_404(User, activation_code=activation_code)
+        user.activate_with_code(activation_code)
+        return Response('Ваш аккаунт успешно активирован')
+
+
+
 class LoginView(ObtainAuthToken):
     serializer_class = LoginSerializer
 

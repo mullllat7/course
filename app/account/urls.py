@@ -11,7 +11,7 @@ router.register('info_users', InfoUserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('register/', RegisterView.as_view()),
-    # path('activate/', ActivationView.as_view()),
+    path('activate/<str:activation_code>/', ActivationView.as_view()),
     path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('change_password/', ChangePasswordView.as_view()),

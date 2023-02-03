@@ -14,7 +14,7 @@ def send_activation_mail(email, activation_code):
     send_mail(
         'Activate your account',
         message,
-        'test@stack_overflow.kg',
+        'abdyllaevbaiel.00@gmail.com',
         [email, ],
         fail_silently=False
     )

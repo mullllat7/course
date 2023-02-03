@@ -74,7 +74,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'course_db',
-        'USER': 'postgres',
+        'USER': 'course_user',
         'PASSWORD': '1',
         'HOST': 'localhost',
         'PORT': 5432,
@@ -129,6 +129,12 @@ REST_FRAMEWORK = {
     ]
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'alatoocourse@gmail.com'
+EMAIL_HOST_PASSWORD = 'ilybzruejhpsolfj'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

@@ -31,39 +31,11 @@ class RegisterSerializer(serializers.Serializer):
     def create(self):
         attrs = self.validated_data
         user = User.objects.create_user(**attrs)
-        # code = user.generate_activation_code()
-        # user.send_activation_mail(user.email, code)
+        code = user.generate_activation_code()
+        user.send_activation_email(user.email, code)
         return user
 
-# #
-# # class ActivationSerializer(serializers.Serializer):
-# #     email = serializers.EmailField(required=True)
-# #     code = serializers.CharField(min_length=8, max_length=8)
-#
-#     def validate_email(self, email):
-#         if not User.objects.filter(email=email).exists():
-#             raise serializers.ValidationError('Пользователь не зарегистрирован')
-#         return email
-#
-#     def validate_code(self, code):
-#         if not User.objects.filter(activation_code=code).exists():
-#             raise serializers.ValidationError('Пользователь не зарегистрирован')
-#         return code
-#
-#
-#     def validate(self, attrs):
-#         email = attrs.get('email')
-#         code = attrs.get('code')
-#         if not User.objects.filter(email=email, activation_code=code).exists():
-#             raise serializers.ValidationError('Пользователь не найден')
-#         return attrs
-#
-#     def activate(self):
-#         email = self.validated_data.get('email')
-#         user = User.objects.get(email=email)
-#         user.is_active = True
-#         user.activation_code = ''
-#         user.save()
+
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
