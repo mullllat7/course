@@ -9,8 +9,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
 
-
-from .models import InfoUser
 from .permission import PermissionMixin
 from .serializers import *
 
@@ -74,6 +72,4 @@ class ForgotPasswordCompleteView(APIView):
         return Response('Пароль успешно обновлён')
 #
 #
-class InfoUserViewSet(PermissionMixin, viewsets.ModelViewSet):
-    queryset = InfoUser.objects.all()
-    serializer_class = InfoUserSerializer
+

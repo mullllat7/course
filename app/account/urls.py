@@ -1,15 +1,11 @@
 
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
 
 from .views import *
-router = DefaultRouter()
 
 
-router.register('info_users', InfoUserViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
     path('register/', RegisterView.as_view()),
     path('activate/<str:activation_code>/', ActivationView.as_view()),
     path('login/', LoginView.as_view()),

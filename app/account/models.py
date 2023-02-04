@@ -26,9 +26,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     email = models.EmailField(primary_key=True)
-    name = models.CharField(max_length=100, blank=True)
-    surname = models.CharField(max_length=100, blank=True)
-    money = models.FloatField(null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=8, blank=True, default='')
@@ -73,15 +70,3 @@ class User(AbstractBaseUser):
         return self.is_staff
 
 
-class InfoUser(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='info_user')
-    name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='media/user_image')
-
-    def __str__(self):
-        return f'{self.name}-{self.surname}'
-
-    class Meta:
-        verbose_name = 'Info user'
-        verbose_name_plural = 'Info users'

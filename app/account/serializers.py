@@ -3,21 +3,18 @@ from django.core.mail import send_mail
 
 from rest_framework import serializers
 from rest_framework.fields import ReadOnlyField
-
-from app.account.models import InfoUser
+from course_root.settings import EMAIL_HOST_USER
 
 User = get_user_model()
 
 
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
-    name = serializers.CharField(required=True)
-    surname = serializers.CharField(required=True)
     password = serializers.CharField(required=True, min_length=6)
     password_confirmation = serializers.CharField(required=True, min_length=6)
 
     def validate_email(self, email):
-        if User.objects.filter(email=email).exists():
+        if User.objects.filter(email=email, is_active=True).exists():
             raise serializers.ValidationError('Адрес почты уже занят')
         return email
 
@@ -95,17 +92,17 @@ class ForgotPasswordSerializer(serializers.Serializer):
     def send_code(self):
         email = self.validated_data.get('email')
         user = User.objects.get(email=email)
-        user.generate_activation_code()
+        code = user.generate_activation_code()
         send_mail(
             'Восстановление пароля',
-            f'Ваш код потверждения: {user.generate_activation_code()}',
-            'abai@gmail.com',
+            f'Ваш код потверждения: {code}',
+            EMAIL_HOST_USER,
             [email]
         )
 
 class ForgetPasswordCompleteSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
-    # code = serializers.CharField(min_length=8, max_length=8, required=True)
+    code = serializers.CharField(min_length=8, max_length=8, required=True)
     password = serializers.CharField(required=True)
     password_confirm = serializers.CharField(required=True)
 
@@ -136,19 +133,3 @@ class ForgetPasswordCompleteSerializer(serializers.Serializer):
 
 
 
-class InfoUserSerializer(serializers.ModelSerializer):
-    author = ReadOnlyField(source='author.email')
-
-    class Meta:
-        model = InfoUser
-        fields = ['id', 'author', 'name', 'surname', 'image']
-
-    def create(self, validated_data):
-        request = self.context.get('request')
-        info, _ = InfoUser.objects.update_or_create(
-            author=request.user,
-            defaults={'name': validated_data.get('name'),
-                      'surname': validated_data.get('surname'),
-                      'image': validated_data.get('image')}
-        )
-        return info
