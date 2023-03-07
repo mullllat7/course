@@ -6,13 +6,13 @@ services:
     volumes:
       - ./data
     environment:
-      - POSTGRES_DB=postgres2
-      - POSTGRES_USER=postgres2
-      - POSTGRES_PASSWORD=postgres2
+      - POSTGRES_DB=postgres21
+      - POSTGRES_USER=postgres21
+      - POSTGRES_PASSWORD=postgres21
   web: 
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8009
+    command: python3 manage.py runserver 0.0.0.0:8008
     ports:
-      - "8009:8009"
+      - "8008:8008"
     depends_on:
       - db 
