@@ -1,9 +1,5 @@
 from django.contrib import admin
 from django.urls import path
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -15,7 +11,7 @@ from course_root import settings
 
 schema_view = get_schema_view(
     openapi.Info(
-        title='Authentication API',
+        title='Tutorial API',
         default_version='v1',
         description='Test Description',
     ),
@@ -25,6 +21,8 @@ router = DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('app.account.urls')),
+    path('account/', include('account.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('lesson/', include('lesson.urls')),
+    path('course/', include('course.urls')),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

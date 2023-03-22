@@ -33,7 +33,9 @@ INSTALLED_APPS = [
     'drf_yasg',
     'djoser',
 
-    'app.account',
+    'account',
+    'course',
+    'lesson'
 ]
 
 MIDDLEWARE = [
@@ -70,27 +72,27 @@ WSGI_APPLICATION = 'course_root.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'course_db',
-#         'USER': 'course_user',
-#         'PASSWORD': '1',
-#         'HOST': 'localhost',
-#         'PORT': 5432,
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres21',
-        'USER': 'postgres21',
-        'PASSWORD': 'postgres21',
-        'HOST': 'db',
-        'PORT': 5432
+        'NAME': 'course_db',
+        'USER': 'course_user',
+        'PASSWORD': '1',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres21',
+#         'USER': 'postgres21',
+#         'PASSWORD': 'postgres21',
+#         'HOST': 'db',
+#         'PORT': 5432
+#     }
+# }
 
 
 # Password validation
