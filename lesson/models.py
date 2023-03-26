@@ -9,7 +9,7 @@ class Lesson(models.Model):
     description = models.TextField(verbose_name='Lesson Description')
     topic = models.TextField(verbose_name='topic')
     code = models.TextField(verbose_name='code')
-    file = models.FileField(upload_to='lessonfile/', verbose_name='File with code in the format --> MD')
+    file = models.FileField(upload_to='lessonfile/', verbose_name='File with code')
     video = models.FileField(blank=True, upload_to='videolesson/', verbose_name='Video')
 
     def __str__(self):

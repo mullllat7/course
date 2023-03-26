@@ -1,7 +1,9 @@
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from course.models import *
 from course.serializers import *
 
@@ -28,11 +30,20 @@ class RatingViewSet(ModelViewSet):
     serializer_class = RatingSerializer
 
 
+class LargeResultPagination(PageNumberPagination):
+    page_size = 2
+    page_query_param = 'page_size'
+    max_page_size = 2
+
 class CourseViewSet(PermissionMixin, ModelViewSet):
 
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-
+    pagination_class = LargeResultPagination
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
+    search_fields = ['name']
+    filterset_fields = ['category']
+    ordering_fields = '__all__'
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = CourseRetrieveSerializer(instance)
