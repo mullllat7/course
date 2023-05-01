@@ -7,7 +7,7 @@ from rest_framework import filters
 from course.models import *
 from course.serializers import *
 
-from account.permission import PermissionMixin
+from account.permission import PermissionMixin, IsTeacherOrAdminPermission
 
 
 class ReviewViewSet(ModelViewSet):
@@ -79,4 +79,29 @@ class LikeViewSet(ModelViewSet):
         queryset = super().get_queryset()
         user = self.request.user
         queryset = queryset.filter(user=user)
+        return queryset
+
+
+class MyCourseViewSet(ModelViewSet):
+
+    permission_classes = [IsAuthenticated, IsTeacherOrAdminPermission]
+    queryset = MyCourse.objects.all()
+    serializer_class = MyCourseSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        queryset = queryset.filter(author=user)
+        return queryset
+
+class RegisteredCourseViewSet(ModelViewSet):
+
+    permission_classes = [IsAuthenticated]
+    queryset = RegisteredCourse.objects.all()
+    serializer_class = RegisteredCourseSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        queryset = queryset.filter(student=user)
         return queryset

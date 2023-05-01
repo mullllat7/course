@@ -29,7 +29,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=8, blank=True, default='')
-
+    is_teacher = models.BooleanField(default=False)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

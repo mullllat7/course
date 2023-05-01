@@ -66,3 +66,14 @@ class SavedCourse(models.Model):
 
     def __str__(self):
         return f"{self.course} --> {self.user}"
+
+class MyCourse(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='my_courses')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_courses')
+
+
+
+class RegisteredCourse(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='registered_courses')
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='registered_courses')
+

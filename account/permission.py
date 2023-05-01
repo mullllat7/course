@@ -18,3 +18,9 @@ class PermissionMixin:
         else:
             permissions = [IsAuthenticated]
         return [permission() for permission in permissions]
+
+
+class IsTeacherOrAdminPermission(BasePermission):
+
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_teacher and request.user.is_active or request.user.is_staff)

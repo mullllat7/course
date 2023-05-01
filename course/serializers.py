@@ -101,3 +101,22 @@ class CourseRetrieveSerializer(serializers.ModelSerializer):
 
         return representation
 
+class MyCourseSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='user.email')
+
+    class Meta:
+        model = MyCourse
+        fields = '__all__'
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        my_course, _ = MyCourse.objects.get_or_create(
+            author=request.user,
+            course=validated_data.get('course'),
+        )
+        return my_course
+
+class RegisteredCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegisteredCourse
+        fields = '__all__'
